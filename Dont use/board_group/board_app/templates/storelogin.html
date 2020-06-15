@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+    <body>
+    
+        <div class="box">
+            <h1 class="title">Welcome to Board Group!</h1>
+            <h2>Where board gamers can share their favorite games, and find local stores to meetup at.</h2>
+        </div>
+        <div class="columns">
+            <div class="column is-one-third">
+                <img src="static/image/games.jpg">
+            </div>
+            <div class="column is-one-third"></div>
+                <div class="box">
+                    <h3 class="title">Merchant Register</h3>
+                    {% for message in messages %}
+                    <ul>
+                        <li>{{message}}</li>
+                    </ul>
+                    {% endfor %}
+                    <form action='/regstore' method='POST'>
+                        {% csrf_token %}
+                        <label for="store" class="label is-justified"> Store Name:</label> <input type='text' name="store">
+                        <label for="email" class="label is-justified">Email:</label> <input type='text' name="email">
+                        <label for="zip" class="label is-justified">Zipcode:</label> <input type='text' name="zip">
+                        <label for="pw" class="label is-justified">Password:</label> <input type='password' name="pw">
+                        <label for="confpw" class="label is-justified">Confirm PW:</label> <input type='password' name="confpw">
+                        <input type="submit" value="Register">
+                    </form>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="box">
+                    <h3>Merchant Login</h3>
+                    <form action='/logstore' method='POST'>
+                        {% csrf_token %}
+                        <label for="email" class="label is-justified">Email:</label> <input type='text' name="email">
+                        <label for="email" class="label is-justified">Password:</label> <input type='password' name="pw">
+                        <input type="submit" value="Login">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <a href='/'>Back to User Login</a>
+</body>
+</html>

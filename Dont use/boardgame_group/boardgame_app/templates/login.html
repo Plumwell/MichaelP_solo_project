@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+   
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
+</head>
+    <body id="container">
+        <div id="container">
+            <div class = "hero-body">
+                <h1 class="title">Welcome to Board Group!</h1>
+                <h2 class="subtitle">Where board gamers can share their favorite games, and find local stores to meetup.</h2>
+            </div>
+        
+            <div class="columns">
+                <div class="column is-one-fourth">
+                    <img src="static/image/board_game1.jpg" alt="bg1">
+                    <img src="static/image/mars.jpg" alt="mars">
+                    <img src="static/image/Photosynthesis_Height.jpg" alt="photosynthesis">
+                </div>
+                <div class="column is-one-fourth">
+                    <div class="box">
+                        <h3 class="title is-4 is-justified">Register</h3>
+                        {% for message in messages %}
+                        <ul>
+                            <li>{{message}}</li>
+                        </ul>
+                        {% endfor %}
+                        <form action='/reguser' method='POST'>
+                        {% csrf_token %}  
+                            <label class="label is-justified">Username:</label> <input type='text' name="username">
+                            <label class="label is-justified">Name:</label> <input type='text' name="name">                           
+                            <label class="label is-justified">Email:</label> <input type='text' name="email">                           
+                            <label class="label is-justified">Zipcode:</label> <input type='text' name="zip">                           
+                            <label class="label is-justified">Password:</label> <input type='password' name="pw">                                                      
+                            <label class="label is-justified">Confirm PW:</label><input type='password' name="confpw">                       
+                            <input type="submit" value="Register">
+                        </form>
+                    </div>
+                </div>
+                <div class="column is-one-fourth">
+                    <div class="box">
+                        <h3 class="title is-4 is-justified">Login</h3>
+                        <form action='/loguser' method='POST' class="logreg">
+                            {% csrf_token %}
+                            <label for="email" class="label is-justified">Email:</label> <input type='text' name="email">
+                            <label for="pw" class="label is-justified">Password:</label> <input type='password' name="pw">
+                            <input type="submit" value="Login">
+                        </form>
+                        <br><br>
+                        <p">Got a store?</p>
+                        <a href='/store' class="subtitle is-6"><i class="fas fa-store"></i> Click here for Merchant Login</a>
+                    </div>
+                </div>
+            
+                <div class="column is-one-fourth">
+                    {% load static %}
+                    <img src="static/image/catan.jpg" alt="catan">
+                    <img src="static/image/azul.jpg" alt="azul">
+                    <img src="static/image/games.jpg" alt="games">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

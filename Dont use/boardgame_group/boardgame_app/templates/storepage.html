@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
+</head>
+
+<body id="container">
+    
+        <div class="hero-body">
+            <h1 class="title">Welcome, {{request.session.store}}!</h1>
+            <a href='/logout' class="subtitle is-6">Log Out</a>
+        </div>
+        <div class="columns">
+            <div class="column is-one-fourth">
+                <div class="box">
+                    <h3 class="title is-6">Add Game to your featured</h3>
+                    <form action='/store/{{request.session.id}}/addgame' method='POST'>
+                        {% csrf_token %}
+                       <label class="label is-justified">Game:</label><input type='text' name="title">
+                        <label for="player">Max Player Count:</label>
+
+                        <select name="player" id="player">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9+">9+</option>
+                        </select>
+                        <fieldset>
+                            <legend class="label is-justified">Type:</legend>
+                            <input type="radio" name="type" id="euro" value="euro" /><label
+                                for="euro">Euro</label><br />
+                            <input type="radio" name="type" id="dungeon" value="dungeon" /><label for="dungeon">Dungeon
+                                Crawler</label><br />
+                            <input type="radio" name="type" id="ameritrash" value="ameritrash" /><label
+                                for="ameritrash">Ameritrash</label><br />
+                            <input type="radio" name="type" id="rpg" value="rpg" /><label for="rpg">RPG</label><br />
+                            <input type="radio" name="type" id="party" value="party" /><label
+                                for="party">Party</label><br />
+                        </fieldset>
+                        <label class="label is-justified">Description:</label><input type='text' name="desc">
+                        <input type="submit" value="Add Game">
+
+                    </form>
+                </div>
+            </div>
+            <div class="column is-one-fourth">
+                <div class="box">
+                    <h3 class="title is-6">Your Stock:</h3>
+                    {% for game in all_games %}
+                    <ul>
+                        <li>{{game.title}}</li>
+                        <li>Type:{{game.type}}</li>
+                        <li>Max Player Count:{{game.player}}</li>
+                        <li>Description:{{game.desc}}</li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="column is-one-fourth">
+                <div class="box">
+                    <h3 class="title is-6"> Your Favorite Gamers:</h3>
+                </div>
+            </div>
+            <div class="column is-one-fourth">
+                <div class="box">
+                    <h3 class="title is-6">Schedule a Game: </h3>
+                </div>
+            </div>
+        </div>
+    
+</body>
+
+</html>

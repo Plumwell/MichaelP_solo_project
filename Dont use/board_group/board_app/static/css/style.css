@@ -1,0 +1,30 @@
+
+#wrapper {
+    width: 100%;
+
+}
+#header {
+    padding:20px;
+}
+    
+
+.logreg {
+
+    display:inline-block;
+    padding: 10px;
+}
+.logreg input {
+   display:inline-block;
+   margin-top: 5px;
+}
+.logreg label { 
+    padding:5px;
+}
+
+#log {
+    background-color: cornflowerblue;
+    padding: 15px;
+}
+.column{
+    margin-right:auto;
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'bulma/bulma.css' %}">
+    <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
+
+    <!-- <script>
+        var req = new XMLHttpRequest();
+        req.open("GET", "http://localhost:8080/https://www.boardgamegeek.com/xmlapi2/thing?id=013", false);
+        req.send(null);
+    </script> -->
+</head>
+
+<body id="container">
+    
+    <div class="columns">
+        <div class="column is-half is-primary">
+            <br>
+            <div class="box">
+                <h1 class="title is-primary">Welcome {{request.session.username}}!</h1>
+                <a href='/logout' class="label is-justified">Log Out</a>
+            </div>
+        </div>
+        <div class="column is-half">
+            <br><br>
+            <img src="/static/image/tabletop_banner.png" alt="boardbanner">
+
+        </div>
+    </div>
+    <div class="columns">
+
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="message-header is-dangerous is-6">Your Collection:</h3>
+                {% for game in all_games %}
+                {% if game.poster.id == request.session.id %}
+                <ul class="message is-success">
+                    <div class="message-header">
+                        {% if game.poster.id == request.session.id %}
+                        <a class="delete is medium" href="/deletegame/{{request.session.id}}/{{game.id}}"></a>
+                        {% endif %}
+                        <li class="title is-4 is-justified">{{game.title}}</li>
+                    </div>
+                    <li>
+                        <figure class="image">
+                        <img class="img is-rounded" src="{{game.cover.url}}" alt="cover"></figure>
+                    </li>
+                    
+                    <div class="message-body">
+                        <li class="label is-justified">Type: {{game.gametype}}</li>
+                        <li class="label is-justified">Max Player Count: {{game.player}}</li>
+                        <li>
+                            <h3 class="label is-justified">Description:</h3> {{game.desc}}
+                        </li>
+                    </div>
+                </ul>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="title is-6">Add Game to your collection</h3>
+                <form action='/user/{{request.session.id}}/addgame' method='POST' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>Game Name:</label><input type='text' name="title">
+                    <br>
+                    <label for="player">Max Player Count:</label>
+                    <select name="player" id="player">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9+">9+</option>
+                    </select>
+                    <fieldset>
+                        <legend>Type:</legend>
+                        <input type="radio" name="type" id="euro" value="Euro" /><label for="euro">Euro</label><br />
+                        <input type="radio" name="type" id="dungeon" value="Dungeon Crawler" /><label
+                            for="dungeon">Dungeon Crawler</label><br />
+                        <input type="radio" name="type" id="ameritrash" value="Ameritrash" /><label
+                            for="ameritrash">Ameritrash</label><br />
+                        <input type="radio" name="type" id="rpg" value="RPG" /><label for="rpg">RPG</label><br />
+                        <input type="radio" name="type" id="party" value="Party" /><label
+                            for="party">Party</label><br />
+                        <input type="radio" name="type" id="coop" value="Co-Op" /><label for="coop">Co-Op</label><br />
+                    </fieldset>
+                    <label>Description:</label><textarea name="desc"></textarea>
+                    <label>Upload Cover Photo:</label><input type="file" name="cover">
+                    <input type="submit" value="Add Game">
+                </form>
+            </div>
+        </div>
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="title is-6">Search for a Store on Gamer-Find in your area:</h3>
+                <form action="/user/{{request.session.id}}/search" method='POST'>
+                    {% csrf_token %}
+                    <label>Zip Code</label><input type="text" name="zipcode">
+                    <input type="submit" value="search">
+                </form>
+                <br>
+                <!-- <h3 class="title is-6">Search Results:</h3> -->
+                {% for store in all_stores %}
+                {% if store.zipcode == request.session.results %}
+
+                <li class="title is-6"><a href='/user/{{request.session.id}}/{{store.id}}'
+                        request.method='POST'>{{store.store}}</a> </li>
+                      
+                {% endif %}
+                {% endfor %} 
+            </div>
+        </div>
+        <div class="column is-one-fourth">
+            <div class="box">
+
+                <h3 class="title is-6">Stores near you:</h3>
+                <iframe width="400" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q=board%20game%20store&key=AIzaSyC8bUK922PNorO3xM6_EVsWfx1Ldr8lTiM" allowfullscreen></iframe>
+                </iframe>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

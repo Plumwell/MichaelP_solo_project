@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'bulma/bulma.css' %}">
+    <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
+</head>
+    <body id="container">
+    
+            <div class="hero-body">
+                <h1 class="title">Welcome to Board Group!</h1>
+                <h2 class="subtitle">Where board gamers can share their favorite games, and find local stores to meetup at.</h2>
+            </div>
+            <div class="columns">
+                <div class="column is-one-fourth">
+                    <div class="box">
+                        <img src="static/image/azul.jpg">
+                        <img src="static/image/gamesgames.png">
+                        <img src="static/image/games.jpg">
+                    </div>
+                </div>
+                <div class="column is-one-fourth">
+                    <div class="box">
+                        <h3 class="title is-4 is-justified">Merchant Register</h3>
+                        {% for message in messages %}
+                        <ul>
+                            <li>{{message}}</li>
+                        </ul>
+                        {% endfor %}
+                        <form action='/regstore' method='POST'>
+                            {% csrf_token %}
+                            <label for="store" class="label is-justified"> Store Name:</label> <input type='text' name="store">
+                            <label for="email" class="label is-justified">Email:</label> <input type='text' name="email">
+                            <label for="zip" class="label is-justified">Zipcode:</label> <input type='text' name="zip">
+                            <label for="pw" class="label is-justified">Password:</label> <input type='password' name="pw">
+                            <label for="confpw" class="label is-justified">Confirm PW:</label> <input type='password' name="confpw">
+                            <input type="submit" value="Register">
+                        </form>
+                    </div>
+                </div>
+                <div class="column is-one-fourth">
+                    <div class="box">
+                        <h3>Merchant Login</h3>
+                        <form action='/logstore' method='POST'>
+                            {% csrf_token %}
+                            <label for="email" class="label is-justified">Email:</label> <input type='text' name="email">
+                            <label for="email" class="label is-justified">Password:</label> <input type='password' name="pw">
+                            <input type="submit" value="Login">
+                        </form>
+                        <br>
+                        <br>
+                        <i class="fas fa-dice"></i>
+                        <a href='/' class="subtitle is-7">...or, Back to User Login</a>
+                    </div>
+                </div>
+                <div class="column is-one-fourth">
+                    <img src="static/image/mars.jpg">
+                    <img src="static/image/catan.jpg">
+                    <img src="static/image/board_game1.jpg">
+                </div>
+            </div>
+       
+        
+    </body>
+</html>

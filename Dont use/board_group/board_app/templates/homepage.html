@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <style>
+        /* Set the size of the div element that contains the map */
+       #map {
+         height: 400px;  /* The height is 400 pixels */
+         width: 50%;  /* The width is the width of the web page */
+        }
+     </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="title is-primary">Welcome {{request.session.fname}}!</h1>
+    </header>
+    <a href='/logout'>Log Out</a>
+    <div class="columns">
+        <div class="column is-one-third">
+            <div class="box">
+                <h3>Add Game to your collection</h3>
+                <form action='/user/{{request.session.id}}/addgame' method='POST'>
+                    {% csrf_token %}
+                    <label>Game Name:</label><input type='text' name="title">
+                    <br>
+                    <label for="player">Max Player Count:</label>
+                    <select name="player" id="player">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9+">9+</option>
+                    </select>
+                    <fieldset>
+                        <legend>Type:</legend>
+                        <input type="radio" name="type" id="euro" value="Euro" /><label for="euro">Euro</label><br />
+                        <input type="radio" name="type" id="dungeon" value="Dungeon Crawler" /><label
+                            for="dungeon">Dungeon Crawler</label><br />
+                        <input type="radio" name="type" id="ameritrash" value="Ameritrash" /><label
+                            for="ameritrash">Ameritrash</label><br />
+                        <input type="radio" name="type" id="rpg" value="RPG" /><label for="rpg">RPG</label><br />
+                        <input type="radio" name="type" id="party" value="Party" /><label
+                            for="party">Party</label><br />
+                        <input type="radio" name="type" id="coop" value="Co-Op" /><label for="coop">Co-Op</label><br />
+                    </fieldset>
+                    <label>Description:</label><textarea name="desc"></textarea>
+                    <input type="submit" value="Add Game">
+                </form>
+            </div>
+        </div>
+        <div class="column is-one-third">
+            <div class="box">
+                <h3>Your Collection:</h3>
+                {% for game in all_games %}
+                <ul class="box $primary">
+                    <li>{{game.title}}</li>
+                    <li>Type: {{game.gametype}}</li>
+                    <li>Max Player Count: {{game.player}}</li>
+                    <li>Description: {{game.desc}}</li>
+                    <li><a href="/deletegame/{{request.session.id}}/{{game.id}}">Delete</a></li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column is-one-third">
+            <div class="box">
+
+                <h3> Your Favorited Stores:</h3>
+
+
+            </div>
+        </div>
+    </div>
+        <div class="box" >
+            <form action="/search" method='POST'>
+            <label for="search" class="justified">Find a LFGS</label>
+            <input type="text" name="search">
+            <input type="submit" value="Find a Store">
+            </form>
+            <br>
+
+        
+            <div id="map"></div>
+            <h3>My Google Maps Demo</h3>
+            <!--The div element for the map -->
+            <div id="map"></div>
+        </div>
+        <script>
+            // Initialize and add the map
+            function initMap() {
+                // The location of Uluru
+                var uluru = { lat: -25.344, lng: 131.036 };
+                // The map, centered at Uluru
+                var map = new google.maps.Map(
+                    document.getElementById('map'), { zoom: 4, center: uluru });
+                // The marker, positioned at Uluru
+                var marker = new google.maps.Marker({ position: uluru, map: map });
+            }
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAfh9MMbwziKW4xr6JADfYt5IceueVp1U&callback=initMap">
+        </script>
+
+</body>
+
+</html>

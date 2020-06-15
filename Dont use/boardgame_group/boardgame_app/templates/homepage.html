@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
+    <style>
+        /* Set the size of the div element that contains the map */
+       #map {
+         height: 400px;  /* The height is 400 pixels */
+         width: 50%;  /* The width is the width of the web page */
+        }
+     </style>
+     <script>
+        var req = new XMLHttpRequest();
+        req.open("GET", "http://localhost:8080/https://www.boardgamegeek.com/xmlapi2/thing?id=013", false);
+        req.send(null);
+    </script>
+</head>
+
+<body id="container">
+    <div class="hero-body">
+        <h1 class="title is-primary">Welcome {{request.session.username}}!</h1>
+        <a href='/logout' class="label is-justified">Log Out</a>
+    </div>
+    
+    <div class="columns">
+        
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="title is-6">Your Collection:</h3>
+                {% for game in all_games %}
+                <ul class="box $primary">
+                    <li>{{game.title}}</li>
+                    <li>Type: {{game.gametype}}</li>
+                    <li>Max Player Count: {{game.player}}</li>
+                    <li>Description: {{game.desc}}</li>
+                    <li><a href="/deletegame/{{request.session.id}}/{{game.id}}">Delete</a></li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="title is-6">Add Game to your collection</h3>
+                <form action='/user/{{request.session.id}}/addgame' method='POST' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>Game Name:</label><input type='text' name="title">
+                    <br>
+                    <label for="player">Max Player Count:</label>
+                    <select name="player" id="player">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9+">9+</option>
+                    </select>
+                    <fieldset>
+                        <legend>Type:</legend>
+                        <input type="radio" name="type" id="euro" value="Euro" /><label for="euro">Euro</label><br />
+                        <input type="radio" name="type" id="dungeon" value="Dungeon Crawler" /><label
+                            for="dungeon">Dungeon Crawler</label><br />
+                        <input type="radio" name="type" id="ameritrash" value="Ameritrash" /><label
+                            for="ameritrash">Ameritrash</label><br />
+                        <input type="radio" name="type" id="rpg" value="RPG" /><label for="rpg">RPG</label><br />
+                        <input type="radio" name="type" id="party" value="Party" /><label
+                            for="party">Party</label><br />
+                        <input type="radio" name="type" id="coop" value="Co-Op" /><label for="coop">Co-Op</label><br />
+                    </fieldset>
+                    <label>Description:</label><textarea name="desc"></textarea>
+                    <label>Upload Cover Photo:</label><input type="file" name="cover">
+                    <input type="submit" value="Add Game">
+                </form>
+            </div>
+        </div>
+        <div class="column is-one-fourth">
+            <div class="box">
+
+                <h3 class="title is-6"> Your Favorited Stores:</h3>
+
+
+            </div>
+        </div>
+        <div class="column is-one-fourth">
+            <div class="box">
+
+                <h3 class="title is-6">Merchant List:</h3>
+
+
+            </div>
+        </div>
+    </div>
+
+        <!-- <div class="box" >
+            <form action="/search" method='POST'>
+            <label for="search" class="justified">Find a LFGS</label>
+            <input type="text" name="search">
+            <input type="submit" value="Find a Store">
+            </form>
+            <br>
+
+        
+            <div id="map"></div>
+            <h3>LFGS Map</h3>
+            The div element for the map
+            <div id="map"></div>
+        </div>
+        <script>
+            // Initialize and add the map
+            function initMap() {
+                // The location of Uluru
+                var uluru = { lat: -25.344, lng: 131.036 };
+                // The map, centered at Uluru
+                var map = new google.maps.Map(
+                    document.getElementById('map'), { zoom: 4, center: uluru });
+                // The marker, positioned at Uluru
+                var marker = new google.maps.Marker({ position: uluru, map: map });
+            }
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAfh9MMbwziKW4xr6JADfYt5IceueVp1U&callback=initMap">
+        </script>
+
+<div id="gameNames"></div>
+    <script>
+        var parser, xmlDoc;
+        var text = req.responseText;
+
+        parser = new DOMParser();
+        xmlDoc = parser.parseFromString(text, "text/xml");
+
+        //Get the number of items - we know this will be two because we only passed in two IDs
+        var numberOfNames = xmlDoc.getElementsByTagName("item").length;
+
+        //Create an array of the items
+        var items = xmlDoc.getElementsByTagName("item");
+
+        for (i = 0; i < numberOfNames; i++) {
+            //Create a new paragraph tag
+            var tempName = document.createElement("p");
+
+            //Get the name of a game in the collection
+            var gameName = items[i].getElementsByTagName('name')[0].getAttribute('value');
+
+            //Set the contents of the paragraph tag to the game name
+            tempName.innerHTML = (i + 1 + ". ") + gameName;
+
+            //Add the paragraph tag to the div in the body
+            document.getElementById("gameNames").appendChild(tempName);
+        }
+    </script> -->
+</body>
+
+</html>
