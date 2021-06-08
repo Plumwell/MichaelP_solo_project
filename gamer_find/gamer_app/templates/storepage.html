@@ -4,31 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Store Page</title>
     {% load static %}
     <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
     <link rel="stylesheet" href="{% static 'bulma/bulma.css' %}">
     <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
 </head>
 
-<body id="container">
+<body id="container" class='has-background-primary is-fluid'>
     <div class="columns">
-        <div class="column is-half">
-            <div class="box has-background-light">
+        <div class="is-flex is-half">
+            <div class="box has-background-info my-6">
                 <br>
                 {% if request.session.store %}
-                <h1 class="title">Welcome, {{request.session.store}}!</h1>
-                <a href='/logout' class="subtitle is-6">Log Out</a>
+                <h1 class="title is-2 has-text-centered has-text-dark my-4">Welcome, {{request.session.store}}!</h1>
+                <a href='/logout' class="subtitle is-6 has-text-danger has-text-centered">Log Out</a>
                 {% elif request.session.user %}
-                <h1 class="title">Welcome to {{store.store}}</h1>
-                <h3 class="title is-4"><a href='/faves/{{store.id}}'>Like this Store</a><p class='subtitle is-6'>{{store.patron.count}} Gamers like this store</p></h3>
-                <a href='/user/{{request.session.user}}' class="subtitle is-6">Back to my page</a>
+                <h1 class="title is-2 has-text-centered has-text-dark my-4">Welcome to {{store.store}}</h1>
+                <h3 class="title is-4 has-text-centered"><a href='/faves/{{store.id}}'>Like this Store</a><p class='subtitle is-6 has-text-centered'>{{store.patron.count}} Gamers like this store</p></h3>
+                <p class='has-text-centered'><a href='/user/{{request.session.user}}' class="subtitle is-6 has-text-danger">Go back to my page</a></p>
                 {% endif %}
         
             </div>
         </div>    
     
-        <div class="column is-half">
+        <div class="is-flex is-half my-6">
             <br>
             <img src="/static/image/tabletop_banner.png" alt="boardbanner">
 
@@ -121,8 +121,8 @@
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = 'client_id';
-      var API_KEY = 'api_key';
+      var CLIENT_ID = '447195918317-9em9kbe259rlt38fvtoacd2i2arp0aao.apps.googleusercontent.com';
+      var API_KEY = 'api_kAIzaSyCAfh9MMbwziKW4xr6JADfYt5IceueVp1Uey';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
@@ -249,5 +249,8 @@
     </div>
 
 </body>
+<footer class="has-background-danger">
+
+</footer>
 
 </html>

@@ -1,70 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
-   
+    <title>Gamer-Find Login</title>
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'bulma/bulma.css' %}">
     <script src="https://kit.fontawesome.com/d8911d9eb1.js" crossorigin="anonymous"></script>
 </head>
-    <body id="container">
-        <div id="container">
-            <div class = "hero-body">
-                <h1 class="title">Welcome to Board Group!</h1>
-                <h2 class="subtitle">Where board gamers can share their favorite games, and find local stores to meetup.</h2>
-            </div>
-        
-            <div class="columns">
-                <div class="column is-one-fourth">
-                    <img src="static/image/board_game1.jpg" alt="bg1">
-                    <img src="static/image/mars.jpg" alt="mars">
-                    <img src="static/image/Photosynthesis_Height.jpg" alt="photosynthesis">
-                </div>
-                <div class="column is-one-fourth">
-                    <div class="box">
-                        <h3 class="title is-4 is-justified">Register</h3>
-                        {% for message in messages %}
-                        <ul>
-                            <li>{{message}}</li>
-                        </ul>
-                        {% endfor %}
-                        <form action='/reguser' method='POST'>
-                        {% csrf_token %}  
-                            <label class="label is-justified">Username:</label> <input type='text' name="username">
-                            <label class="label is-justified">Name:</label> <input type='text' name="name">                           
-                            <label class="label is-justified">Email:</label> <input type='text' name="email">                           
-                            <label class="label is-justified">Zipcode:</label> <input type='text' name="zip">                           
-                            <label class="label is-justified">Password:</label> <input type='password' name="pw">                                                      
-                            <label class="label is-justified">Confirm PW:</label><input type='password' name="confpw">                       
-                            <input type="submit" value="Register">
-                        </form>
+
+<body id="container">
+    <div id="container" class="my-0"></div>
+    <div class="hero-body">
+        <header class='header'>
+
+            <h1 class="title is-1 my-2 has-text-centered"><i class="fas fa-dice-d20"></i> Welcome to Board Group! <i class="fas fa-chess-board"></i></h1>
+            <h2 class="subtitle my-2 has-text-centered">Where boardgamers can share their favorite games and find local
+                stores.</h2>
+
+        </header>
+    </div>
+
+    <div class="columns my-2">
+        <div class="column is-one-fourth">
+            <img src="static/image/board_game1.jpg" alt="bg1">
+            <img src="static/image/mars.jpg" alt="mars">
+            <img src="static/image/Photosynthesis_Height.jpg" alt="photosynthesis">
+        </div>
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="title is-4 is-justified has-text-centered">Register</h3>
+                {% for message in messages %}
+                <ul>
+                    <li class='is-size-7 has-text-danger'>{{message}}</li>
+                </ul>
+                {% endfor %}
+                <form action='/reguser' method='POST'>
+                    {% csrf_token %}
+                    <div class="field is-horizontal level">
+                        <div class="field-label is-normal level-left"><label
+                                class="label level-item ml-5">Username</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-primary level-item mr-6" type="text" name="username"
+                                    placeholder=Username>
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="column is-one-fourth">
-                    <div class="box">
-                        <h3 class="title is-4 is-justified">Login</h3>
-                        <form action='/loguser' method='POST' class="logreg">
-                            {% csrf_token %}
-                            <label for="email" class="label is-justified">Email:</label> <input type='text' name="email">
-                            <label for="pw" class="label is-justified">Password:</label> <input type='password' name="pw">
-                            <input type="submit" value="Login">
-                        </form>
-                        <br><br>
-                        <p">Got a store?</p>
-                        <a href='/store' class="subtitle is-6"><i class="fas fa-store"></i> Click here for Merchant Login</a>
+                    <div class="field is-horizontal level">
+                        <div class="field-label is-normal level-left"><label class="label level-item ml-5">Name</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-primary level-item mr-6" type="text" name="name"
+                                    placeholder=Name>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            
-                <div class="column is-one-fourth">
-                    {% load static %}
-                    <img src="static/image/catan.jpg" alt="catan">
-                    <img src="static/image/azul.jpg" alt="azul">
-                    <img src="static/image/games.jpg" alt="games">
-                </div>
+                    <div class="field is-horizontal level">
+                        <div class="field-label is-normal level-left"><label
+                                class="label level-item ml-5">E-mail</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-primary mr-6" type="text" placeholder="E-mail" name="email">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal level">
+                        <div class="field-label is-normal level-left"><label class="label level-item ml-5">Zip
+                                Code</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-primary mr-6" type="text" placeholder="Zip Code" name="zip">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal level">
+                        <div class="field-label is-normal level-left"><label
+                                class="label level-item ml-5">Password</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-primary level-item mr-6" type="password"
+                                    placeholder='***********' name="pw">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal level">
+                        <div class="field-label is-normal level-left"><label class="label level-item ml-5">Confirm
+                                Pass</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-primary level-item mr-6" type="password"
+                                    placeholder='***********' name="confpw">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="field is-grouped is-grouped-centered">
+                        <p class="control">
+                            <input type="submit" class='button is-primary' value="Register">
+                        </p>
+                        <p class="control">
+                            <a class="button is-light" href="login.html">
+                                Cancel
+                            </a>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
-    </body>
+        <div class="column is-one-fourth">
+            <div class="box">
+                <h3 class="title is-4 is-justified has-text-centered">Login</h3>
+                <form action='/loguser' method='POST' class="logreg">
+                    {% csrf_token %}
+                    <div class="field is-horizontal level-left">
+                        <div class="field-label is-normal"><label class="label">E-mail</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-info" type="text" placeholder="E-mail" name="email">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal"><label class="label">Password</label>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <input class="input is-info" type="password" placeholder='***********' name="pw">
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="field is-grouped is-grouped-centered">
+                        <p class="control">
+                            <input type="submit" class="button is-info" value="Login">
+                        </p>
+                    </div>
+                </form>
+                <br><br>
+                <p class="has-text-centered"><i class="fas fa-store"><a href='/store' class="subtitle is-6"> Go to
+                            Merchant Login</a></i> </p>
+            </div>
+        </div>
+
+        <div class="column is-one-fourth">
+            {% load static %}
+            <img src="static/image/catan.jpg" alt="catan">
+            <img src="static/image/azul.jpg" alt="azul">
+            <img src="static/image/games.jpg" alt="games">
+        </div>
+    </div>
+    <div class="image my-0">
+        <img src="/media/shelf.jpg" alt="shelf">
+    </div>
+
+
+</body>
+<footer class=' hero-footer is-small my-0'>
+    <h3 class='subtitle is-4 has-text-centered has-text-white mgb-small'>This website is a work in progress by Michael
+        Plell</h3>
+</footer>
+
 </html>
